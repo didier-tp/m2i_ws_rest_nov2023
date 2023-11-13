@@ -6,6 +6,8 @@ import java.util.Set;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
+import io.swagger.jaxrs.config.BeanConfig;
+
 @ApplicationPath("/rest") //partie de l'URL qui mène aux WS REST
 //après http://localhost:8080/webapp_rest et avant @Path des classes java
 public class MyWSRestConfig extends Application {
@@ -13,17 +15,23 @@ public class MyWSRestConfig extends Application {
 	
 	
 	public MyWSRestConfig() {
-		System.out.println("constructeur - MyWSRestConfig");
+		  BeanConfig beanConfig = new BeanConfig();
+		  beanConfig.setVersion("1.0.0");
+		  beanConfig.setBasePath("/webapp_rest/rest/my-api");
+		  beanConfig.setResourcePackage("io.swagger.resources,tp.web.rest");
+		  beanConfig.setScan(true); 
 	}
+
 	
 	/*
-	//sinon , on peut préciser la liste ici:
 	@Override
 	public Set<Class<?>> getClasses() {
-		System.out.println("MyWSRestConfig.getClasses()");
-	final Set<Class<?>> classes = new HashSet<Class<?>>();
-	    classes.add(DeviseRest.class);
-	return classes;
-	}
-	*/
+	    Set<Class<?>> resources = new HashSet();
+	    resources.add(io.swagger.jaxrs.listing.ApiListingResource.class);
+	    resources.add(io.swagger.jaxrs.listing.SwaggerSerializers.class);
+	    return resources;
+	    }
+	    */
+	
+	
 }

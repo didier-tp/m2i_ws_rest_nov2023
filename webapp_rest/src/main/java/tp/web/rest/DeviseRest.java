@@ -3,6 +3,7 @@ package tp.web.rest;
 
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.ws.rs.Consumes;
@@ -19,10 +20,11 @@ import javax.ws.rs.core.Response.Status;
 
 import tp.web.dto.Devise;
 import tp.web.service.ServiceDevise;
+import tp.web.util.JWTTokenNeeded;
 
 @Path("my-api/devise")
 @Produces("application/json")
-@Singleton
+@Singleton //javax.inject.Singleton
 public class DeviseRest {
 	
 	//service interne (ex: EJB)/ simulation persistance en base
@@ -30,6 +32,11 @@ public class DeviseRest {
 
 	@Inject
 	private ServiceDevise serviceDevise;
+	
+	@PostConstruct
+	public void init() {
+		System.out.println("DeviseRest , init() serviceDevise="+serviceDevise);
+	}
 	
 	@GET
 	@Path("/{code}")
@@ -72,6 +79,7 @@ public class DeviseRest {
 	//{ "id" : null , "code" : "MS1" , "nom" : "MonnaieSinge1" , "change" : 1234567.6 }
 	//{ "code" : "MS1" , "nom" : "MonnaieSinge1" , "change" : 1234567.6 }
 	@Consumes("application/json")
+	@JWTTokenNeeded
 	public Devise postDevise(Devise devise) {
 		return serviceDevise.insertDevise(devise);
 	}
