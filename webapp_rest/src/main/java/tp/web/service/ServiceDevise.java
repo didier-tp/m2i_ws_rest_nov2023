@@ -41,7 +41,7 @@ public class ServiceDevise {
 	public List<Devise> geDevisesWithChangeMini(double changeMini){
 		return mapDevises.values()
 				.stream()
-				.filter(d->d.getChange()<changeMini)
+				.filter(d->d.getChange()>changeMini)
 				.collect(Collectors.toList());
 	}
 
