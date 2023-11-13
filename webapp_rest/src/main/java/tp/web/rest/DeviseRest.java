@@ -1,6 +1,8 @@
 package tp.web.rest;
 
 
+import javax.annotation.PostConstruct;
+import javax.inject.Named;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -10,7 +12,9 @@ import tp.web.dto.Devise;
 
 @Path("my-api/devise")
 @Produces("application/json")
+//@Named
 public class DeviseRest {
+	
 	
 	@GET
 	@Path("/{code}")
