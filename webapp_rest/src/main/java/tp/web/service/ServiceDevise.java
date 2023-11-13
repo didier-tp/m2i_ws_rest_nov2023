@@ -5,10 +5,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.inject.Named;
+
 import tp.web.dto.Devise;
 
 //Service interne (business/metier) qui pourrait utiliser jpa/hibernate et une base de données
 //pour simuler cela sur un cours de 2j : HashMap
+//@Named
 public class ServiceDevise {
 	
 	
@@ -19,6 +22,7 @@ public class ServiceDevise {
 		mapDevises.put(1L, new Devise(1L,"EUR","Euro",1.0));
 		mapDevises.put(2L, new Devise(2L,"USD","Dollar",1.05));
 		mapDevises.put(3L, new Devise(3L,"GBP","Livre",0.9));
+		mapDevises.put(4L, new Devise(4L,"JPY","Yen",123.78));
 	}
 	
 	public Devise getDeviseById(Long id){
