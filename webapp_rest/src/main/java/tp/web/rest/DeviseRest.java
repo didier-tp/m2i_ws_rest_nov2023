@@ -28,7 +28,7 @@ public class DeviseRest {
 	@Path("/{code}")
 	//RECHERCHE UNIQUE RETOURNANT EVENTUELLEMENT NOT_FOUND
 	//http://localhost:8080/webapp_rest/rest/my-api/devise/EUR
-	public Devise getDevise(@PathParam("code") String code) {
+	public Devise getDeviseByCode(@PathParam("code") String code) {
 	   return serviceDevise.getDeviseByCode(code);
 	}
 	
@@ -39,7 +39,7 @@ public class DeviseRest {
 	//RETOURNANT LISTE VIDE OU PAS
 	//http://localhost:8080/webapp_rest/rest/my-api/devise  retournant toutes les devises
 	//http://localhost:8080/webapp_rest/rest/my-api/devise?changeMini=1.01 retournant toutes les devises avec changeMini=1.01
-	public List<Devise> getDevise(@QueryParam(value="changeMini") Double changeMini) {
+	public List<Devise> getDevisesByCriteria(@QueryParam(value="changeMini") Double changeMini) {
 	  if(changeMini==null)
 		  return serviceDevise.getAllDevises();
 	  else
