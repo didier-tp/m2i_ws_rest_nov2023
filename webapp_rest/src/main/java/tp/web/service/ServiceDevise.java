@@ -16,6 +16,7 @@ public class ServiceDevise {
 	
 	
 	private Map<Long,Devise> mapDevises= new HashMap<>();
+	private Long numDeviseMax;
 	
 	
 	public ServiceDevise() {
@@ -23,6 +24,22 @@ public class ServiceDevise {
 		mapDevises.put(2L, new Devise(2L,"USD","Dollar",1.05));
 		mapDevises.put(3L, new Devise(3L,"GBP","Livre",0.9));
 		mapDevises.put(4L, new Devise(4L,"JPY","Yen",123.78));
+		numDeviseMax=4L;
+	}
+	
+	public Devise insertDevise(Devise devise) {
+		devise.setId(++numDeviseMax);//simuler auto_incr
+		mapDevises.put(devise.getId(),devise);//simuler ajout en base
+		return devise; //on retourne l'entité sauvegardée avec clef primaire auto_incrémentée
+	}
+	
+	public Devise updateDevise(Devise devise) {
+		mapDevises.put(devise.getId(),devise);//simuler update en base
+		return devise; //on retourne l'entité sauvegardée 
+	}
+	
+	public void removeDevise(Long id) {
+		mapDevises.remove(id);
 	}
 	
 	public Devise getDeviseById(Long id){

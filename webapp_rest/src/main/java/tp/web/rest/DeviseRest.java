@@ -3,7 +3,11 @@ package tp.web.rest;
 
 import java.util.List;
 
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -57,5 +61,38 @@ public class DeviseRest {
 	  else
 		  return serviceDevise.geDevisesWithChangeMini(changeMini);
 	}
+	
+	@POST
+	@Path("")
+	//POST (AJOUT VERS LE SERVEUR)
+	//http://localhost:8080/webapp_rest/rest/my-api/devise 
+	//avec dans la partie invisible "body" de la requête
+	//{ "id" : null , "code" : "MS1" , "nom" : "MonnaieSinge1" , "change" : 1234567.6 }
+	//{ "code" : "MS1" , "nom" : "MonnaieSinge1" , "change" : 1234567.6 }
+	@Consumes("application/json")
+	public Devise postDevise(Devise devise) {
+		return serviceDevise.insertDevise(devise);
+	}
+	
+	@PUT
+	@Path("")
+	//PUT (MISE A JOUR VERS LE SERVEUR)
+	//http://localhost:8080/webapp_rest/rest/my-api/devise 
+	//avec dans la partie invisible "body" de la requête
+	//{ "id" : 5 , "code" : "MS1" , "nom" : "MonnaieSinge1" , "change" : 1234567.6 }
+	@Consumes("application/json")
+	public Devise putDevise(Devise devise) {
+		return serviceDevise.updateDevise(devise);
+	}
+	
+	@DELETE
+	@Path("/{id}")
+	//SUPPRESSION VERS SERVEUR
+	//http://localhost:8080/webapp_rest/rest/my-api/devise/5
+	public Response deleteDeviseById(@PathParam("id") Long id) {
+		return null;//....
+	}
+	
+	
 
 }
