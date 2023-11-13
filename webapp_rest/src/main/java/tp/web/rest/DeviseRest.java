@@ -3,6 +3,8 @@ package tp.web.rest;
 
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -20,14 +22,14 @@ import tp.web.service.ServiceDevise;
 
 @Path("my-api/devise")
 @Produces("application/json")
-//@Named
+@Singleton
 public class DeviseRest {
 	
 	//service interne (ex: EJB)/ simulation persistance en base
-	private ServiceDevise serviceDevise = new ServiceDevise();
+	//private ServiceDevise serviceDevise = new ServiceDevise();
 
-	//@Inject
-	//private ServiceDevise serviceDevise;
+	@Inject
+	private ServiceDevise serviceDevise;
 	
 	@GET
 	@Path("/{code}")

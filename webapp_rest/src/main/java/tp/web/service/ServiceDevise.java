@@ -5,13 +5,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import javax.inject.Named;
+import javax.inject.Singleton;
 
 import tp.web.dto.Devise;
 
 //Service interne (business/metier) qui pourrait utiliser jpa/hibernate et une base de données
 //pour simuler cela sur un cours de 2j : HashMap
-//@Named
+@Singleton
 public class ServiceDevise {
 	
 	
