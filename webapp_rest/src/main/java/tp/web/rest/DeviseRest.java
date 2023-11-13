@@ -3,12 +3,13 @@ package tp.web.rest;
 
 import java.util.List;
 
-import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import tp.web.dto.Devise;
 import tp.web.service.ServiceDevise;
@@ -28,9 +29,20 @@ public class DeviseRest {
 	@Path("/{code}")
 	//RECHERCHE UNIQUE RETOURNANT EVENTUELLEMENT NOT_FOUND
 	//http://localhost:8080/webapp_rest/rest/my-api/devise/EUR
+	
+	/*
 	public Devise getDeviseByCode(@PathParam("code") String code) {
 	   return serviceDevise.getDeviseByCode(code);
 	}
+	*/
+	public Response getDeviseByCode(@PathParam("code") String code) {
+		   Devise devise = serviceDevise.getDeviseByCode(code);
+		   if(devise==null)
+			   return Response.status(Status.NOT_FOUND).build();
+		   else
+		       return Response.status(Status.OK).entity(devise).build();
+		}
+	
 	
 	
 	@GET
