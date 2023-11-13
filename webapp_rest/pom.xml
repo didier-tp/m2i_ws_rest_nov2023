@@ -9,6 +9,7 @@
         <maven.compiler.release>17</maven.compiler.release>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <failOnMissingWebXml>false</failOnMissingWebXml>
+        <swagger.version>2.0.10</swagger.version>
   </properties>
   
   <dependencies>
@@ -33,19 +34,66 @@
             <version>0.11.4</version>
         </dependency>
   		
-  		
+  	<!--	
 	<dependency>
 	    <groupId>io.swagger</groupId>
 	    <artifactId>swagger-jaxrs</artifactId>
 	    <version>1.6.4</version>
 	</dependency>
+    -->
+    
+    <!-- swagger related dependencies -->
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-jaxrs2</artifactId>
+            <version>${swagger.version}</version>
+        </dependency>
 
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-jaxrs2-servlet-initializer</artifactId>
+            <version>${swagger.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>${swagger.version}</version>
+        </dependency>
+        
+        <dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>swagger-ui</artifactId>
+			<version>3.20.8</version>
+		</dependency>
 	  
   </dependencies>
   
   
   <build>
 	  <finalName>webapp_rest</finalName>
+	  <plugins>
+		  <!-- plugin for api data generation -->
+            <plugin>
+                <groupId>io.swagger.core.v3</groupId>
+                <artifactId>swagger-maven-plugin</artifactId>
+                <version>${swagger.version}</version>
+                <configuration>
+                    <outputFileName>jaxrs-api</outputFileName>
+                    <outputPath>${project.build.directory}/swagger</outputPath>
+                    <outputFormat>JSON</outputFormat>
+                    <configurationFilePath>${project.basedir}/src/main/resources/openapi.json</configurationFilePath>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>resolve</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
   </build>
   
   

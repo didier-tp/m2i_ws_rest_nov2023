@@ -10,6 +10,8 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
 
+//https://dzone.com/articles/securing-jax-rs-endpoints-withnbspjwt
+
 @Provider
 @JWTTokenNeeded
 @Priority(Priorities.AUTHENTICATION)
