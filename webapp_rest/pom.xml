@@ -33,14 +33,7 @@
             <artifactId>jjwt-jackson</artifactId>
             <version>0.11.4</version>
         </dependency>
-  		
-  	<!--	
-	<dependency>
-	    <groupId>io.swagger</groupId>
-	    <artifactId>swagger-jaxrs</artifactId>
-	    <version>1.6.4</version>
-	</dependency>
-    -->
+
     
     <!-- swagger related dependencies -->
         <dependency>
@@ -61,11 +54,15 @@
             <version>${swagger.version}</version>
         </dependency>
         
+        <!--
         <dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>swagger-ui</artifactId>
 			<version>3.20.8</version>
 		</dependency>
+		-->
+		<!-- ou bien copy du contenu de  /dist de https://github.com/swagger-api/swagger-ui
+		     vers src/main/webapp/swagger -->
 	  
   </dependencies>
   
@@ -79,8 +76,9 @@
                 <artifactId>swagger-maven-plugin</artifactId>
                 <version>${swagger.version}</version>
                 <configuration>
-                    <outputFileName>jaxrs-api</outputFileName>
-                    <outputPath>${project.build.directory}/swagger</outputPath>
+                    <outputFileName>myapi</outputFileName>
+                   <!-- <outputPath>${project.build.directory}/swagger</outputPath> -->
+                     <outputPath>${project.basedir}/src/main/webapp</outputPath>
                     <outputFormat>JSON</outputFormat>
                     <configurationFilePath>${project.basedir}/src/main/resources/openapi.json</configurationFilePath>
                 </configuration>

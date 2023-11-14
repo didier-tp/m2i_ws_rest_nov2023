@@ -42,14 +42,23 @@ public class DeviseRest {
 	@Path("/{code}")
 	//RECHERCHE UNIQUE RETOURNANT EVENTUELLEMENT NOT_FOUND
 	//http://localhost:8080/webapp_rest/rest/my-api/devise/EUR
+	//http://localhost:8080/webapp_rest/rest/my-api/devise/1
 	
 	/*
 	public Devise getDeviseByCode(@PathParam("code") String code) {
 	   return serviceDevise.getDeviseByCode(code);
 	}
 	*/
-	public Response getDeviseByCode(@PathParam("code") String code) {
-		   Devise devise = serviceDevise.getDeviseByCode(code);
+	public Response getDeviseByCodeOrId(@PathParam("code") String code) {
+		   Devise devise = null;
+		   //avec code ici au sens "codeOrId"
+		   try {
+			   Long id=Long.parseLong(code);
+				devise = serviceDevise.getDeviseById(id);
+		   } catch (NumberFormatException e) {
+			   devise = serviceDevise.getDeviseByCode(code);
+		   }
+		   
 		   if(devise==null)
 			   return Response.status(Status.NOT_FOUND).build();
 		   else
