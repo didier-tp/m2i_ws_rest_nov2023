@@ -76,11 +76,12 @@
                 <artifactId>swagger-maven-plugin</artifactId>
                 <version>${swagger.version}</version>
                 <configuration>
-                    <outputFileName>myapi</outputFileName>
-                   <!-- <outputPath>${project.build.directory}/swagger</outputPath> -->
-                     <outputPath>${project.basedir}/src/main/webapp</outputPath>
+                    <outputFileName>my-api</outputFileName>
+                    <!-- <outputPath>${project.build.directory}/swagger-ui</outputPath> -->
+                    <outputPath>${project.basedir}/src/main/webapp</outputPath>
                     <outputFormat>JSON</outputFormat>
                     <configurationFilePath>${project.basedir}/src/main/resources/openapi.json</configurationFilePath>
+                    
                 </configuration>
                 <executions>
                     <execution>

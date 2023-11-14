@@ -6,14 +6,15 @@
   "prettyPrint": true,
   "cacheTTL": 0,
   "openAPI": {
+	"servers":[
+		{ "url" : "http://localhost:8080/webapp_rest/rest",
+		  "description" : "dev mode server"
+		  }
+	],  
     "info": {
       "version": 1.0,
       "title": "webapp_rest my-api",
       "description": "JAX-RS API docs",
-      "termsOfService": "https://example.com",
-      "contact": {
-        "email": "example@example.com"
-      },
       "license": {
         "name": "Apache 2.0",
         "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
