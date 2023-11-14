@@ -1,5 +1,10 @@
 package tp.web.dto;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+@XmlRootElement(name = "devise")
 public class Devise {
 	
 	private Long id; //null ou 1 ou 2 (auto_incr)
@@ -7,6 +12,8 @@ public class Devise {
 	private String nom;  //"Euro" , "Dollar" 
 	private Double change; //1.1 (nb unités pour 1 euro)
 	
+	@JsonIgnore
+	private String comment = "comment xyz";
 
 	public Devise() {
 		super();
@@ -51,6 +58,16 @@ public class Devise {
 	}
 	public void setChange(Double change) {
 		this.change = change;
+	}
+
+
+	public String getComment() {
+		return comment;
+	}
+
+
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 
 	

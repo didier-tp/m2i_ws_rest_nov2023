@@ -20,6 +20,15 @@ import javax.ws.rs.core.Response.Status;
 
 import tp.web.dto.Devise;
 import tp.web.service.ServiceDevise;
+import tp.web.util.JWTTokenNeeded;
+
+//api-bank/compte
+//        /virement
+//api-finance/devise
+//api-xxx/produit
+//        /category
+//api-yyy/client
+
 
 @Path("my-api/devise")
 @Produces("application/json")
@@ -64,7 +73,12 @@ public class DeviseRest {
 		       return Response.status(Status.OK).entity(devise).build();
 		}
 	
-	
+	@GET
+	@Path("/enXml")
+	@Produces("text/xml")
+	public List<Devise> getDevisesXml(){
+		return serviceDevise.getAllDevises();
+	}
 	
 	@GET
 	@Path("")
@@ -87,7 +101,7 @@ public class DeviseRest {
 	//{ "id" : null , "code" : "MS1" , "nom" : "MonnaieSinge1" , "change" : 1234567.6 }
 	//{ "code" : "MS1" , "nom" : "MonnaieSinge1" , "change" : 1234567.6 }
 	@Consumes("application/json")
-	//@JWTTokenNeeded
+	@JWTTokenNeeded
 	public Devise postDevise(Devise devise) {
 		return serviceDevise.insertDevise(devise);
 	}
@@ -113,6 +127,7 @@ public class DeviseRest {
 	
 	@DELETE
 	@Path("/{id}")
+	@JWTTokenNeeded
 	//SUPPRESSION VERS SERVEUR
 	//http://localhost:8080/webapp_rest/rest/my-api/devise/5
 	public Response deleteDeviseById(@PathParam("id") Long id) {

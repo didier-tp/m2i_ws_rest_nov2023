@@ -46,8 +46,9 @@ function basicErrorCallback(err){
 function updateSelected(){
 	let objectJs = objectFromInput();
 	if(!canDoAction("update" , objectJs))return;
-	let objectJson = JSON.stringify(objectJs) ;  
-	let wsUrl = getWsBaseUrl();   
+	let objectJson = JSON.stringify(objectJs) ; 
+	let id = (document.getElementById("inputId")).value; 
+	let wsUrl = getWsBaseUrl() + "/" + id;   
 	makeAjaxPutRequest(wsUrl,objectJson,function (responseJson){
 		console.log("responseJson="+responseJson);
 		//document.getElementById("spanMsg").innerHTML="successfully updated";

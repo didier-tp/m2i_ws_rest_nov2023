@@ -25,8 +25,14 @@ public class JWTTokenNeededFilter implements ContainerRequestFilter {
 
             // Extract the token from the HTTP Authorization header
             String token = authorizationHeader.substring("Bearer".length()).trim();
-        	JwtUtil.validateToken(token, JwtUtil.DEFAULT_JWT_SECRET);
-        	System.out.println("### valid jwt bearer token");
+        	boolean valid = JwtUtil.validateToken(token, JwtUtil.DEFAULT_JWT_SECRET);
+        	if(valid)
+        	   System.out.println("### valid jwt bearer token: " + valid);
+        	else {
+        		System.out.println("#### invalid bearer token:" + valid);
+                requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
+        	}
+        	
         } catch (Exception e) {
         	System.out.println("#### invalid bearer token");
             requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
