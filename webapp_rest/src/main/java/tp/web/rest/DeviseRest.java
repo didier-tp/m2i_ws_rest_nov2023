@@ -20,7 +20,6 @@ import javax.ws.rs.core.Response.Status;
 
 import tp.web.dto.Devise;
 import tp.web.service.ServiceDevise;
-import tp.web.util.JWTTokenNeeded;
 
 @Path("my-api/devise")
 @Produces("application/json")
@@ -28,7 +27,7 @@ import tp.web.util.JWTTokenNeeded;
 public class DeviseRest {
 	
 	//service interne (ex: EJB)/ simulation persistance en base
-	//private ServiceDevise serviceDevise = new ServiceDevise();
+	
 
 	@Inject
 	private ServiceDevise serviceDevise;
@@ -88,20 +87,28 @@ public class DeviseRest {
 	//{ "id" : null , "code" : "MS1" , "nom" : "MonnaieSinge1" , "change" : 1234567.6 }
 	//{ "code" : "MS1" , "nom" : "MonnaieSinge1" , "change" : 1234567.6 }
 	@Consumes("application/json")
-	@JWTTokenNeeded
+	//@JWTTokenNeeded
 	public Devise postDevise(Devise devise) {
 		return serviceDevise.insertDevise(devise);
 	}
 	
 	@PUT
-	@Path("")
+	@Path("/{id}")
 	//PUT (MISE A JOUR VERS LE SERVEUR)
-	//http://localhost:8080/webapp_rest/rest/my-api/devise 
+	//http://localhost:8080/webapp_rest/rest/my-api/devise/5
 	//avec dans la partie invisible "body" de la requête
-	//{ "id" : 5 , "code" : "MS1" , "nom" : "MonnaieSinge1" , "change" : 1234567.6 }
+	//{ "id" : 5 , "code" : "MS1" , "nom" : "Monnaie_Singe1" , "change" : 3434567.6 }
 	@Consumes("application/json")
-	public Devise putDevise(Devise devise) {
-		return serviceDevise.updateDevise(devise);
+	public Response putDevise(@PathParam("id") Long id,Devise devise) {
+		if(id!=null) {
+			devise.setId(id);
+		}
+		Devise deviseAModifier = serviceDevise.getDeviseById(id);
+		if(deviseAModifier==null)
+			return Response.status(Status.NOT_FOUND).build(); //pas trouver devise à modifier
+		Devise deviseModifiee = serviceDevise.updateDevise(devise);
+		//return Response.status(Status.NO_CONTENT).build();  //OK sans details
+		return Response.status(Status.OK).entity(deviseModifiee).build(); //OK avec details
 	}
 	
 	@DELETE
@@ -109,7 +116,18 @@ public class DeviseRest {
 	//SUPPRESSION VERS SERVEUR
 	//http://localhost:8080/webapp_rest/rest/my-api/devise/5
 	public Response deleteDeviseById(@PathParam("id") Long id) {
-		return null;//....
+		Devise deviseAsupprimer = serviceDevise.getDeviseById(id);
+		if(deviseAsupprimer==null)
+			return Response.status(Status.NOT_FOUND).build(); //pas trouver devise à supprimer
+		else
+		{
+			try {
+				serviceDevise.removeDevise(id);
+				return Response.status(Status.NO_CONTENT).build();//suppression OK sans détails 
+			} catch (Exception e) {
+				return Response.status(Status.INTERNAL_SERVER_ERROR).build();//erreur technique ou ...
+			}
+		}
 	}
 	
 	

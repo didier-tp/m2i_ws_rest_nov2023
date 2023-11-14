@@ -13,9 +13,10 @@ import tp.web.service.ServiceDevise;
 
 //Service interne (business/metier) qui pourrait utiliser jpa/hibernate et une base de données
 //pour simuler cela sur un cours de 2j : HashMap
-@Singleton //javax.ejb.Singleton un peu comme @Stateless (javax.ejb)
+ //javax.ejb.Singleton un peu comme @Stateless (javax.ejb)
+@Singleton
 @Default
-public class ServiceDeviseEjbImpl implements ServiceDevise {
+public class ServiceDeviseEjbImpl implements ServiceDevise  {
 	
 	
 	private Map<Long,Devise> mapDevises= new HashMap<>();
