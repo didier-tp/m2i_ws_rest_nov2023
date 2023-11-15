@@ -9,6 +9,8 @@ import javax.ejb.Singleton;
 import javax.enterprise.inject.Default;
 
 import tp.web.dto.Devise;
+import tp.web.exception.MyConflictException;
+import tp.web.exception.MyNotFoundException;
 import tp.web.service.ServiceDevise;
 
 //Service interne (business/metier) qui pourrait utiliser jpa/hibernate et une base de données
@@ -33,34 +35,52 @@ public class ServiceDeviseEjbImpl implements ServiceDevise  {
 	}
 	
 	@Override
-	public Devise insertDevise(Devise devise) {
+	public Devise insertDevise(Devise devise) throws MyConflictException {
+		Devise existingDeviseWithSameCode =  mapDevises.values()
+				.stream()
+				.filter(d->devise.getCode().equalsIgnoreCase(d.getCode()))
+				.findFirst().orElse(null);
+		if(existingDeviseWithSameCode!=null)
+			throw new MyConflictException("conflict: existing devise already exist with unique code="+devise.getCode());
 		devise.setId(++numDeviseMax);//simuler auto_incr
 		mapDevises.put(devise.getId(),devise);//simuler ajout en base
 		return devise; //on retourne l'entité sauvegardée avec clef primaire auto_incrémentée
 	}
 	
 	@Override
-	public Devise updateDevise(Devise devise) {
+	public Devise updateDevise(Devise devise) throws MyNotFoundException {
+		Devise existingDeviseToUpdate= mapDevises.get(devise.getId());
+		if(existingDeviseToUpdate==null)
+			throw new MyNotFoundException("devise with id="+devise.getId()+ " not exists , cannot update");
 		mapDevises.put(devise.getId(),devise);//simuler update en base
 		return devise; //on retourne l'entité sauvegardée 
 	}
 	
 	@Override
-	public void removeDevise(Long id) {
+	public void removeDevise(Long id) throws MyNotFoundException {
+		Devise existingDeviseToRemove= mapDevises.get(id);
+		if(existingDeviseToRemove==null)
+			throw new MyNotFoundException("devise with id="+id+ " not exists , cannot delete");
 		mapDevises.remove(id);
 	}
 	
 	@Override
-	public Devise getDeviseById(Long id){
-		return mapDevises.get(id);
+	public Devise getDeviseById(Long id) throws MyNotFoundException{
+		Devise existingDeviseToReturn= mapDevises.get(id);
+		if(existingDeviseToReturn==null)
+			throw new MyNotFoundException("devise with id="+id+ " not found");
+		return existingDeviseToReturn;
 	}
 	
 	@Override
-	public Devise getDeviseByCode(String code){
-		return mapDevises.values()
+	public Devise getDeviseByCode(String code)throws MyNotFoundException{
+		Devise existingDeviseToReturn=  mapDevises.values()
 				.stream()
 				.filter(d->code.equalsIgnoreCase(d.getCode()))
 				.findFirst().orElse(null);
+		if(existingDeviseToReturn==null)
+			throw new MyNotFoundException("devise with code="+code+ " not found");
+		return existingDeviseToReturn;
 	}
 	
 	@Override

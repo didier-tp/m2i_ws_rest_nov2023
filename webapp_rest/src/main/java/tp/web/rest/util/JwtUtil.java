@@ -1,4 +1,4 @@
-package tp.web.util;
+package tp.web.rest.util;
 
 import java.security.Key;
 import java.util.Collection;

@@ -19,14 +19,14 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import tp.web.dto.Devise;
+import tp.web.rest.util.JWTTokenNeeded;
 import tp.web.service.ServiceDevise;
-import tp.web.util.JWTTokenNeeded;
 
 //api-bank/compte
 //        /virement
 //api-finance/devise
 //api-xxx/produit
-//        /category
+//       /category
 //api-yyy/client
 
 
@@ -36,8 +36,6 @@ import tp.web.util.JWTTokenNeeded;
 public class DeviseRest {
 	
 	//service interne (ex: EJB)/ simulation persistance en base
-	
-
 	@Inject
 	private ServiceDevise serviceDevise;
 	
@@ -47,31 +45,23 @@ public class DeviseRest {
 	}
 	
 	@GET
-	@Path("/{code}")
+	@Path("/{codeOrId}")
 	//RECHERCHE UNIQUE RETOURNANT EVENTUELLEMENT NOT_FOUND
 	//http://localhost:8080/webapp_rest/rest/my-api/devise/EUR
 	//http://localhost:8080/webapp_rest/rest/my-api/devise/1
-	
-	/*
-	public Devise getDeviseByCode(@PathParam("code") String code) {
-	   return serviceDevise.getDeviseByCode(code);
-	}
-	*/
-	public Response getDeviseByCodeOrId(@PathParam("code") String code) {
+	public /*Response*/ Devise getDeviseByCodeOrId(@PathParam("codeOrId") String codeOrId) {
 		   Devise devise = null;
-		   //avec code ici au sens "codeOrId"
 		   try {
-			   Long id=Long.parseLong(code);
+			   Long id=Long.parseLong(codeOrId);
 				devise = serviceDevise.getDeviseById(id);
 		   } catch (NumberFormatException e) {
-			   devise = serviceDevise.getDeviseByCode(code);
+			   devise = serviceDevise.getDeviseByCode(codeOrId);
 		   }
-		   
-		   if(devise==null)
-			   return Response.status(Status.NOT_FOUND).build();
-		   else
-		       return Response.status(Status.OK).entity(devise).build();
+		   return devise; 
+		   //NB if MyNotFoundException , automatic MyNotFoundExceptionMapper translate it 
+		   //into Response with dto.ApiError and Http Status 404
 		}
+	
 	
 	@GET
 	@Path("/enXml")
@@ -79,6 +69,7 @@ public class DeviseRest {
 	public List<Devise> getDevisesXml(){
 		return serviceDevise.getAllDevises();
 	}
+	
 	
 	@GET
 	@Path("")
@@ -104,11 +95,13 @@ public class DeviseRest {
 	//@JWTTokenNeeded
 	public Devise postDevise(Devise devise) {
 		return serviceDevise.insertDevise(devise);
+		//NB if MyConflictException , automatic MyConflictExceptionMapper translate it 
+		//into Response with dto.ApiError and Http Status 409
 	}
 	
 	@PUT
 	@Path("/{id}")
-	//PUT (MISE A JOUR VERS LE SERVEUR)
+	//PUT (MISE A JOUR COTE SERVEUR)
 	//http://localhost:8080/webapp_rest/rest/my-api/devise/5
 	//avec dans la partie invisible "body" de la requête
 	//{ "id" : 5 , "code" : "MS1" , "nom" : "Monnaie_Singe1" , "change" : 3434567.6 }
@@ -117,10 +110,10 @@ public class DeviseRest {
 		if(id!=null) {
 			devise.setId(id);
 		}
-		Devise deviseAModifier = serviceDevise.getDeviseById(id);
-		if(deviseAModifier==null)
-			return Response.status(Status.NOT_FOUND).build(); //pas trouver devise à modifier
 		Devise deviseModifiee = serviceDevise.updateDevise(devise);
+	    //NB if MyNotFoundException , automatic MyNotFoundExceptionMapper translate it 
+		//into Response with dto.ApiError and Http Status 404
+		
 		//return Response.status(Status.NO_CONTENT).build();  //OK sans details
 		return Response.status(Status.OK).entity(deviseModifiee).build(); //OK avec details
 	}
@@ -128,21 +121,14 @@ public class DeviseRest {
 	@DELETE
 	@Path("/{id}")
 	@JWTTokenNeeded
-	//SUPPRESSION VERS SERVEUR
+	//SUPPRESSION COTE SERVEUR
 	//http://localhost:8080/webapp_rest/rest/my-api/devise/5
 	public Response deleteDeviseById(@PathParam("id") Long id) {
-		Devise deviseAsupprimer = serviceDevise.getDeviseById(id);
-		if(deviseAsupprimer==null)
-			return Response.status(Status.NOT_FOUND).build(); //pas trouver devise à supprimer
-		else
-		{
-			try {
-				serviceDevise.removeDevise(id);
-				return Response.status(Status.NO_CONTENT).build();//suppression OK sans détails 
-			} catch (Exception e) {
-				return Response.status(Status.INTERNAL_SERVER_ERROR).build();//erreur technique ou ...
-			}
-		}
+		    serviceDevise.removeDevise(id);
+		    //NB if MyNotFoundException , automatic MyNotFoundExceptionMapper translate it 
+			//into Response with dto.ApiError and Http Status 404
+		    
+			return Response.status(Status.NO_CONTENT).build();//suppression OK sans détails 
 	}
 	
 	

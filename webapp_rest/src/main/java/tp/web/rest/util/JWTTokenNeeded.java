@@ -1,4 +1,4 @@
-package tp.web.util;
+package tp.web.rest.util;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -11,7 +11,7 @@ import javax.ws.rs.Produces;
 
 import tp.web.dto.LoginRequest;
 import tp.web.dto.LoginResponse;
-import tp.web.util.JwtUtil;
+import tp.web.rest.util.JwtUtil;
 
 @Path("my-api/login")
 @Produces("application/json")
