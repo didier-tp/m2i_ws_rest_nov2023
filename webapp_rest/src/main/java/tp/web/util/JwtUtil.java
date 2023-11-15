@@ -17,7 +17,6 @@ import io.jsonwebtoken.security.Keys;
 
 /*
  * JwtUtil classe utilitaire (Helper with static methods)
- * generic (no spring)
  */
 
 public class JwtUtil {

@@ -101,7 +101,7 @@ public class DeviseRest {
 	//{ "id" : null , "code" : "MS1" , "nom" : "MonnaieSinge1" , "change" : 1234567.6 }
 	//{ "code" : "MS1" , "nom" : "MonnaieSinge1" , "change" : 1234567.6 }
 	@Consumes("application/json")
-	@JWTTokenNeeded
+	//@JWTTokenNeeded
 	public Devise postDevise(Devise devise) {
 		return serviceDevise.insertDevise(devise);
 	}

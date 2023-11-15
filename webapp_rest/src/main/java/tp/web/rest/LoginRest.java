@@ -22,8 +22,8 @@ public class LoginRest {
 	@Path("")
 	//http://localhost:8080/webapp_rest/rest/my-api/login 
 	//avec dans la partie invisible "body" de la requête
-	//{  "username" : "user1" , "password" : "pwduser1" 
-	//{  "username" : "user1" , "password" : "wrongpwd"
+	//{  "username" : "user1" , "password" : "pwduser1" }
+	//{  "username" : "user1" , "password" : "wrongpwd" }
 	//{  "username" : "admin1" , "password" : "pwdadmin1" }
 	@Consumes("application/json")
 	public LoginResponse postDevise(LoginRequest loginRequest) {
