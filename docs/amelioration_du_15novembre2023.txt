@@ -1,0 +1,5 @@
+- chapitre jax-rs du support de cours amélioré (sécurité JWT , exceptionMapper , ...)
+
+- application cliente appelant des WS-REST
+- swagger mieux intégré
+- code restructuré avec exceptionMapper
