@@ -3,7 +3,7 @@ package tp.springJersey.config;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.springframework.context.annotation.Configuration;
 
-//import io.swagger.v3.jaxrs2.integration.resources.OpenApiResource;
+import io.swagger.v3.jaxrs2.integration.resources.OpenApiResource;
 import jakarta.annotation.PostConstruct;
 import jakarta.ws.rs.ApplicationPath;
 import tp.springJersey.provider.GenericExceptionMapper;
@@ -18,6 +18,6 @@ public class JerseyConfiguration extends ResourceConfig {
         register(GenericExceptionMapper.class); //facultatif
         
         packages("tp.springJersey.rest");
-        //register(OpenApiResource.class);
+        register(OpenApiResource.class);
     }
 }
