@@ -9,7 +9,7 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import tp.dto.Produit;
 
-@Path("/produits") //partie de l'url
+@Path("/api-produits/v1/produits") //partie de l'url liée àà l'ensemble de la classe
 @Produces("application/json") //pour transformer java en json sur réponses fabriquées
 public class ProduitRestController {
 	
@@ -23,9 +23,18 @@ public class ProduitRestController {
 	
 	@GET
 	@Path("/{id}")
-	//URL d'appel : http://localhost:8080/appliRest/produits/1
+	//URL d'appel : http://localhost:8080/appliRest/api-produits/v1/produits/1
 	public Produit getProduitByNum(@PathParam("id")Long numero) {
-		return listeProduits.get(numero.intValue() -1);//en Tp !!!!
+		return listeProduits.stream()
+				        .filter((p)->p.getNum()==numero)
+				        .findFirst().get();
+	}
+	
+	@GET
+	@Path("")
+	//URL d'appel : http://localhost:8080/appliRest/api-produits/v1/produits
+	public List<Produit> getProduitsByCriteria() {
+		return listeProduits;
 	}
 	
 

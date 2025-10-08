@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.URI;
 
 import org.glassfish.grizzly.http.server.HttpServer;
-import org.glassfish.grizzly.http.server.StaticHttpHandler;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 
@@ -31,8 +30,7 @@ public class App {
     public static void main(String[] args) throws IOException {
         // Start the server
         final HttpServer server = startServer();
-        server.getServerConfiguration().addHttpHandler(new StaticHttpHandler("src/main/webapp"), "/static");
-        System.out.println(String.format("Jersey app started at %s%s", BASE_URI, "static/index.html"));
+        System.out.println(String.format("Jersey app started at %s%s", BASE_URI, "api-produits/v1/produits"));
         System.out.println("Hit enter to stop it...");
         System.in.read();
         server.shutdownNow();

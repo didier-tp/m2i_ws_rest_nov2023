@@ -1,0 +1,26 @@
+package tp.rest;
+
+import jakarta.ws.rs.ApplicationPath;
+import jakarta.ws.rs.core.Application;
+
+/*
+ NB: cette classe de configuration spécifique à l'api JAX-RS
+ n'est correctement interprétée que lors d'un déploiement au format .war
+ au sein d'un vériatable serveur JEE (ex: JBoss, WebSphere, ...)
+ Par défaut le "Grizzly" utilisé pour un premier Tp simple
+ n'analyse pas cette classe et ne la prend pas en compte
+ 
+ ===>
+ Au sein de ce TP, la partie "/api-produits/v1" sera directement placée dans le code
+ de la classe java ProduitRestController
+ */
+
+
+//@ApplicationPath("/rest") 
+@ApplicationPath("/api-produits/v1")
+//partie "milieu" des URLs menant aux WS REST
+//ex: http://localhost:8080/appliRest/rest/produits/1
+// ou http://localhost:8080/appliRest/api-produits/v1/produits/1
+public class MyRestApplicationConfig extends Application {
+
+}
