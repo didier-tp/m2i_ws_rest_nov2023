@@ -40,7 +40,7 @@ public class ProduitRestController {
 	
 	@GET
 	@Path("/{id}")
-	//URL d'appel : http://localhost:8080/springJersey/rest/api-produits/v1/produits/1
+	//URL d'appel : http://localhost:8080/rest/api-produits/v1/produits/1
 	public Produit getProduitByNum(@PathParam("id")Long numero) {
 		return listeProduits.stream()
 				        .filter((p)->p.getNum()==numero)
@@ -54,7 +54,7 @@ public class ProduitRestController {
 	/*
 	@GET
 	@Path("/{id}")
-	//URL d'appel : http://localhost:8080/springJersey/rest/api-produits/v1/produits/1
+	//URL d'appel : http://localhost:8080/rest/api-produits/v1/produits/1
 	public Response getProduitByNum(@PathParam("id")Long numero) {
 		Optional<Produit> optionalProd = listeProduits.stream()
 				        .filter((p)->p.getNum()==numero)
@@ -74,7 +74,7 @@ public class ProduitRestController {
 
 	
 	@GET
-	//URL d'appel : http://localhost:8080/springJersey/rest/api-produits/v1/produits
+	//URL d'appel : http://localhost:8080/rest/api-produits/v1/produits
 	//ou             .../produits
 	//ou             .../produits?prixMaxi=4.5
 	//ou             .../produits?prixMini=2
