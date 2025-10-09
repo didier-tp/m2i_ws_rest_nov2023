@@ -144,6 +144,7 @@ public class ProduitRestController {
 	public Response putProduit(@PathParam("id") Long id, Produit p){
         //.... mise à jour / update sur liste ou en base
 		//retourner le code 204/NO_CONTENT ou bien 200/OK plus copie des données mises à jour
+		return Response.status(Status.NO_CONTENT).build(); 
 	}
 	
 	@DELETE
@@ -152,6 +153,7 @@ public class ProduitRestController {
 	public Response deleteProduit(@PathParam("id") Long id){
         //.... suppression sur liste ou en base
 		//retourner le code 204/NO_CONTENT ou bien 200/OK plus un message "suppression bien effectuée"
+		return Response.status(Status.NO_CONTENT).build();
 	}
 	
 
