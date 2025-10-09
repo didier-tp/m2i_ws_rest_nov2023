@@ -1,8 +1,11 @@
 package tp.springJersey.rest;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -131,8 +134,15 @@ public class ProduitRestController {
 		this.listeProduits.add(p);
 		//dans une appli plus évoluée , save() et auto-incr
 		
+		
+		URI location = ServletUriComponentsBuilder
+				.fromCurrentRequest()
+				.path("/{id}")
+				.buildAndExpand(p.getNum()).toUri();
+		
 		//on peut retourner l'entitée sauvegardée avec un id/num auto-incrémenté
-		return Response.status(Status.CREATED).entity(p).build(); 
+		//return Response.status(Status.CREATED).entity(p).build(); 
+		return Response.created(location).entity(p).build();
 		//NB: 201/CREATED un peu plus précis que 200/OK
 	}
 	
