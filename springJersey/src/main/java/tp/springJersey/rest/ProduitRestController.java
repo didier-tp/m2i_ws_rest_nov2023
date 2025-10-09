@@ -14,6 +14,7 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
+import tp.springJersey.dto.ApiError;
 import tp.springJersey.dto.Produit;
 
 //@Component pas nécessaire si register(ProduitRestController) dans classe héritant de ResourceConfig
@@ -39,7 +40,10 @@ public class ProduitRestController {
 				        .findFirst();
 		if(optionalProd.isEmpty()) {
 			//renvoyer message d'erreur avec code 404 NOT_FOUND
-			return Response.status(Status.NOT_FOUND).entity("pas trouvé").build();
+			return Response.status(Status.NOT_FOUND)
+					.entity(new ApiError("produit pas trouvé pour id="+numero,
+							             Status.NOT_FOUND.getStatusCode()))
+					.build();
 		}else {
 			//renvoyer produit trouvé avec code 200 OK
 			return Response.status(Status.OK).entity(optionalProd.get()).build();
