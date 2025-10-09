@@ -2,11 +2,13 @@ package tp.rest;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import tp.dto.Produit;
 
 @Path("/api-produits/v1/produits") //partie de l'url liée àà l'ensemble de la classe
@@ -31,10 +33,33 @@ public class ProduitRestController {
 	}
 	
 	@GET
+	@Path("/all")
+	//URL d'appel : http://localhost:8080/appliRest/api-produits/v1/produits/all
+	//ou            http://localhost:8080/appliRest/produits/all
+	public List<Produit> getAllProduits() {
+		    return listeProduits;
+	}
+	
+	@GET
 	@Path("")
 	//URL d'appel : http://localhost:8080/appliRest/api-produits/v1/produits
-	public List<Produit> getProduitsByCriteria() {
-		return listeProduits;
+	//ou            http://localhost:8080/appliRest/produits
+	//ou            http://localhost:8080/appliRest/produits?prixMaxi=4.5
+	//ou            http://localhost:8080/appliRest/produits?prixMini=2
+	//ou            http://localhost:8080/appliRest/produits?prixMaxi=4.5&prixMini=2
+	public List<Produit> getProduitsByCriteria(@QueryParam("prixMaxi") Double prixMaxi,
+			                                   @QueryParam("prixMini") Double prixMini) {
+		/* if(prixMaxi==null && prixMini==null)
+		    return listeProduits;
+		 
+		else { */
+			final double prixMax=prixMaxi!=null?prixMaxi:999999999999.0;
+			final double prixMin=prixMini!=null?prixMini:0.0;
+			return listeProduits.stream()
+			        .filter((p)-> p.getPrix()<=prixMax && p.getPrix() >=prixMin)
+			        .collect(Collectors.toList()); //ou bien .toList() direct avec jdk17
+		/* } */
+		
 	}
 	
 
