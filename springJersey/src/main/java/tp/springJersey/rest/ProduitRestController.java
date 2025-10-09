@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -20,8 +21,9 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 import tp.springJersey.dto.Produit;
 
+@Tag(name = "api-produits", description = "REST API pour produits (TP)"  )
 //@Component pas nécessaire si register(ProduitRestController) dans classe héritant de ResourceConfig
-@Path("/api-produits/v1/produits") //partie de l'url liée àà l'ensemble de la classe
+@Path("/api-produits/v1/produits") //partie de l'url liée à l'ensemble de la classe
 @Produces("application/json") //pour transformer java en json sur réponses fabriquées
 public class ProduitRestController {
 	
@@ -38,7 +40,7 @@ public class ProduitRestController {
 	
 	@GET
 	@Path("/{id}")
-	//URL d'appel : http://localhost:8080/appliRest/api-produits/v1/produits/1
+	//URL d'appel : http://localhost:8080/springJersey/rest/api-produits/v1/produits/1
 	public Produit getProduitByNum(@PathParam("id")Long numero) {
 		return listeProduits.stream()
 				        .filter((p)->p.getNum()==numero)
@@ -52,7 +54,7 @@ public class ProduitRestController {
 	/*
 	@GET
 	@Path("/{id}")
-	//URL d'appel : http://localhost:8080/appliRest/api-produits/v1/produits/1
+	//URL d'appel : http://localhost:8080/springJersey/rest/api-produits/v1/produits/1
 	public Response getProduitByNum(@PathParam("id")Long numero) {
 		Optional<Produit> optionalProd = listeProduits.stream()
 				        .filter((p)->p.getNum()==numero)
@@ -69,40 +71,31 @@ public class ProduitRestController {
 		}
 	}
 	*/
+
 	
 	@GET
-	@Path("/all")
-	//URL d'appel : http://localhost:8080/appliRest/api-produits/v1/produits/all
-	//ou            http://localhost:8080/appliRest/produits/all
-	public List<Produit> getAllProduits() {
-		    return listeProduits;
-	}
-	
-	@GET
-	@Path("")
-	//URL d'appel : http://localhost:8080/appliRest/api-produits/v1/produits
-	//ou            http://localhost:8080/appliRest/produits
-	//ou            http://localhost:8080/appliRest/produits?prixMaxi=4.5
-	//ou            http://localhost:8080/appliRest/produits?prixMini=2
-	//ou            http://localhost:8080/appliRest/produits?prixMaxi=4.5&prixMini=2
+	//URL d'appel : http://localhost:8080/springJersey/rest/api-produits/v1/produits
+	//ou             .../produits
+	//ou             .../produits?prixMaxi=4.5
+	//ou             .../produits?prixMini=2
+	//ou             .../produits?prixMaxi=4.5&prixMini=2
 	public List<Produit> getProduitsByCriteria(@QueryParam("prixMaxi") Double prixMaxi,
 			                                   @QueryParam("prixMini") Double prixMini) {
-		/* if(prixMaxi==null && prixMini==null)
+		 if(prixMaxi==null && prixMini==null)
 		    return listeProduits;
 		 
-		else { */
+		else {
 			final double prixMax=prixMaxi!=null?prixMaxi:999999999999.0;
 			final double prixMin=prixMini!=null?prixMini:0.0;
 			return listeProduits.stream()
 			        .filter((p)-> p.getPrix()<=prixMax && p.getPrix() >=prixMin)
 			        .collect(Collectors.toList()); //ou bien .toList() direct avec jdk17
-		/* } */
+		 } 
 		
 	}
 	
 	/*
 	@POST
-	@Path("")
 	@Consumes("application/json")
 	//    { "num" : 7 , "label" : "crayon" , "prix" : 2.8 } très rarement
 	// ou { "num" : null , "label" : "crayon" , "prix" : 2.8 }
@@ -120,7 +113,6 @@ public class ProduitRestController {
 	*/
 	
 	@POST
-	@Path("")
 	@Consumes("application/json")
 	//    { "num" : 7 , "label" : "crayon" , "prix" : 2.8 } très rarement
 	// ou { "num" : null , "label" : "crayon" , "prix" : 2.8 }
@@ -149,10 +141,16 @@ public class ProduitRestController {
 	@PUT
 	@Path("/{id}")
 	@Consumes("application/json")
-	//URL d'appel : http://localhost:8080/..../produits/7
-	//    { "num" : 7 , "label" : "crayon noir" , "prix" : 12.8 } 
+	//URL d'appel : http://localhost:8080/..../produits/2
+	//    { "num" : 2 , "label" : "gomme blanche" , "prix" : 3.8 } 
 	public Response putProduit(@PathParam("id") Long id, Produit p){
         //.... mise à jour / update sur liste ou en base
+		for(int i=0;i<this.listeProduits.size();i++) {
+			Produit prod = listeProduits.get(i);
+			if(prod.getNum()==id) {
+				listeProduits.set(i, p); break;
+			}
+		}
 		//retourner le code 204/NO_CONTENT ou bien 200/OK plus copie des données mises à jour
 		return Response.status(Status.NO_CONTENT).build(); 
 	}
@@ -162,6 +160,11 @@ public class ProduitRestController {
 	//URL d'appel : http://localhost:8080/..../produits/7
 	public Response deleteProduit(@PathParam("id") Long id){
         //.... suppression sur liste ou en base
+		for(Produit prod : this.listeProduits) {
+			if(prod.getNum()==id) {
+				listeProduits.remove(prod); break;
+			}
+		}
 		//retourner le code 204/NO_CONTENT ou bien 200/OK plus un message "suppression bien effectuée"
 		return Response.status(Status.NO_CONTENT).build();
 	}
