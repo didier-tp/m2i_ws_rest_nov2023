@@ -34,6 +34,20 @@ public class ProduitRestController {
 	@GET
 	@Path("/{id}")
 	//URL d'appel : http://localhost:8080/appliRest/api-produits/v1/produits/1
+	public Produit getProduitByNum(@PathParam("id")Long numero) {
+		return listeProduits.stream()
+				        .filter((p)->p.getNum()==numero)
+				        .findFirst().get();  
+		//NB: si .get() remonte une exception de type NoSuchElementException
+		//et qu'un exceptionMapper a été enregistré,
+		//une exception pas rattrapée explicitement par try/catch sera automatiquement transformée en 
+		//Respone avec bon status et bon message
+	}
+	
+	/*
+	@GET
+	@Path("/{id}")
+	//URL d'appel : http://localhost:8080/appliRest/api-produits/v1/produits/1
 	public Response getProduitByNum(@PathParam("id")Long numero) {
 		Optional<Produit> optionalProd = listeProduits.stream()
 				        .filter((p)->p.getNum()==numero)
@@ -49,6 +63,7 @@ public class ProduitRestController {
 			return Response.status(Status.OK).entity(optionalProd.get()).build();
 		}
 	}
+	*/
 	
 	@GET
 	@Path("/all")
