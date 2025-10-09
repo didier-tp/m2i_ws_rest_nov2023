@@ -5,12 +5,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
 import tp.springJersey.dto.Produit;
 
 //@Component pas nécessaire si register(ProduitRestController) dans classe héritant de ResourceConfig
@@ -93,6 +97,7 @@ public class ProduitRestController {
 		
 	}
 	
+	/*
 	@POST
 	@Path("")
 	@Consumes("application/json")
@@ -108,6 +113,45 @@ public class ProduitRestController {
 		this.listeProduits.add(p);
 		//dans une appli plus évoluée , save() et auto-incr
 		return p; //on peut retourner l'entitée sauvegardée avec un id/num auto-incrémenté
+	}
+	*/
+	
+	@POST
+	@Path("")
+	@Consumes("application/json")
+	//    { "num" : 7 , "label" : "crayon" , "prix" : 2.8 } très rarement
+	// ou { "num" : null , "label" : "crayon" , "prix" : 2.8 }
+	// ou { "label" : "crayon" , "prix" : 2.8 }
+	public Response postProduit(Produit p){
+		
+		//simuler auto-incrémentation:
+		int nouveauNum = this.listeProduits.size() + 1;
+		p.setNum((long)nouveauNum);
+		
+		this.listeProduits.add(p);
+		//dans une appli plus évoluée , save() et auto-incr
+		
+		//on peut retourner l'entitée sauvegardée avec un id/num auto-incrémenté
+		return Response.status(Status.CREATED).entity(p).build(); 
+		//NB: 201/CREATED un peu plus précis que 200/OK
+	}
+	
+	@PUT
+	@Path("/{id}")
+	@Consumes("application/json")
+	//URL d'appel : http://localhost:8080/..../produits/7
+	//    { "num" : 7 , "label" : "crayon noir" , "prix" : 12.8 } 
+	public Response putProduit(@PathParam("id") Long id, Produit p){
+        //.... mise à jour / update sur liste ou en base
+		//retourner le code 204/NO_CONTENT ou bien 200/OK plus copie des données mises à jour
+	}
+	
+	@DELETE
+	@Path("/{id}")
+	//URL d'appel : http://localhost:8080/..../produits/7
+	public Response deleteProduit(@PathParam("id") Long id){
+        //.... suppression sur liste ou en base
+		//retourner le code 204/NO_CONTENT ou bien 200/OK plus un message "suppression bien effectuée"
 	}
 	
 
