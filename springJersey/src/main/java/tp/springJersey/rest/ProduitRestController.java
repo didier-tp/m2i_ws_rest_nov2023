@@ -18,12 +18,14 @@ import tp.springJersey.dto.Produit;
 @Produces("application/json") //pour transformer java en json sur réponses fabriquées
 public class ProduitRestController {
 	
-	private List<Produit> listeProduits = new ArrayList<>();
+	private static List<Produit> listeProduits = new ArrayList<>();
 	
 	public ProduitRestController() {
-		listeProduits.add(new Produit(1L,"stylo",3.3));
-		listeProduits.add(new Produit(2L,"gomme",4.3));
-		listeProduits.add(new Produit(3L,"classeur",5.3));
+		if(listeProduits.isEmpty()) {
+			listeProduits.add(new Produit(1L,"stylo",3.3));
+			listeProduits.add(new Produit(2L,"gomme",4.3));
+			listeProduits.add(new Produit(3L,"classeur",5.3));
+		}
 		System.out.println("ProduitRestController instance:" + this.toString() );
 	}
 	
@@ -94,7 +96,15 @@ public class ProduitRestController {
 	@POST
 	@Path("")
 	@Consumes("application/json")
+	//    { "num" : 7 , "label" : "crayon" , "prix" : 2.8 } très rarement
+	// ou { "num" : null , "label" : "crayon" , "prix" : 2.8 }
+	// ou { "label" : "crayon" , "prix" : 2.8 }
 	public Produit postProduit(Produit p){
+		
+		//simuler auto-incrémentation:
+		int nouveauNum = this.listeProduits.size() + 1;
+		p.setNum((long)nouveauNum);
+		
 		this.listeProduits.add(p);
 		//dans une appli plus évoluée , save() et auto-incr
 		return p; //on peut retourner l'entitée sauvegardée avec un id/num auto-incrémenté
