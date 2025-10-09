@@ -1,4 +1,4 @@
-package tp.springJersey.dto.provider;
+package tp.springJersey.provider;
 
 import java.util.NoSuchElementException;
 

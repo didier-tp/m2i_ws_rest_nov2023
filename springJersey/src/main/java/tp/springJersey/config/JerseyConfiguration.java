@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.ws.rs.ApplicationPath;
-import tp.springJersey.dto.provider.NoSuchElementExceptionMapper;
+import tp.springJersey.provider.NoSuchElementExceptionMapper;
 
 @Configuration //indispensable
 @ApplicationPath("/rest") //part of url (in the middle), facultatif
