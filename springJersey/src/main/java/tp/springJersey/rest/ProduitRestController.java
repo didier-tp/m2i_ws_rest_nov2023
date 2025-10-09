@@ -2,19 +2,15 @@ package tp.springJersey.rest;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.springframework.stereotype.Component;
-
+import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
-import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.core.Response.Status;
-import tp.springJersey.dto.ApiError;
 import tp.springJersey.dto.Produit;
 
 //@Component pas nécessaire si register(ProduitRestController) dans classe héritant de ResourceConfig
@@ -93,6 +89,15 @@ public class ProduitRestController {
 			        .collect(Collectors.toList()); //ou bien .toList() direct avec jdk17
 		/* } */
 		
+	}
+	
+	@POST
+	@Path("")
+	@Consumes("application/json")
+	public Produit postProduit(Produit p){
+		this.listeProduits.add(p);
+		//dans une appli plus évoluée , save() et auto-incr
+		return p; //on peut retourner l'entitée sauvegardée avec un id/num auto-incrémenté
 	}
 	
 
