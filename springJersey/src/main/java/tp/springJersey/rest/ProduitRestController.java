@@ -23,6 +23,7 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
+import tp.springJersey.dto.CatFact;
 import tp.springJersey.dto.Produit;
 import tp.springJersey.service.ServiceChat;
 
@@ -53,7 +54,13 @@ public class ProduitRestController {
 	}
 	
 	@Autowired
-	private ServiceChat serviceProduit;
+	private ServiceChat serviceChat;
+	
+	@GET
+	@Path("/catfact")  //url en .../produits/hello
+	public CatFact catFact() {
+		return serviceChat.getRecentCatFact();
+	}
 	
 	private List<Produit> listeProduits = new ArrayList<>();
 	
@@ -66,8 +73,8 @@ public class ProduitRestController {
 	
 	@PostConstruct
 	public void init() {
-		if(this.serviceProduit!=null)
-			System.out.println(this.serviceProduit.getServiceName() );
+		if(this.serviceChat!=null)
+			System.out.println(this.serviceChat.getServiceName() );
 	}
 	
 	@GET
