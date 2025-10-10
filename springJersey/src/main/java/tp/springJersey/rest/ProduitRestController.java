@@ -24,7 +24,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 import tp.springJersey.dto.Produit;
-import tp.springJersey.service.ServiceProduit;
+import tp.springJersey.service.ServiceChat;
 
 /*
  La classe courante (ici ProduitRestController)
@@ -53,7 +53,7 @@ public class ProduitRestController {
 	}
 	
 	@Autowired
-	private ServiceProduit serviceProduit;
+	private ServiceChat serviceProduit;
 	
 	private List<Produit> listeProduits = new ArrayList<>();
 	

@@ -15,7 +15,7 @@ cd c:\references\m2i_ws_rest_nov2023
 git pull
 ---------
 WS appel en java via jaxrs2 : page 84 et …
-WS appel en java depuis Spring : page 104 : possibilités
+WS appel en java depuis Spring : page 107 : possibilités
 WS appel en pur java>=9 : page 113
 ============
 WS appel en javascript via ajax/XHR : page 102
