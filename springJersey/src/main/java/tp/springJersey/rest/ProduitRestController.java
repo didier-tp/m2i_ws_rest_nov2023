@@ -5,9 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.PostConstruct;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -20,12 +23,20 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 import tp.springJersey.dto.Produit;
+import tp.springJersey.service.ServiceProduit;
 
-@Tag(name = "api-produits", description = "REST API pour produits (TP)"  )
-//@Component pas nécessaire si register(ProduitRestController) dans classe héritant de ResourceConfig
+@Tag(name = "api-produits", description = "REST API pour produits (TP)"  ) //pour doc swagger
+
+@Component //pas absolument nécessaire si register(ProduitRestController) 
+//dans classe héritant de ResourceConfig
+//MAIS TRES CONSEILLE pour comportement SINGLETON et pour INJECTION de dépendances "Spring"
+
 @Path("/api-produits/v1/produits") //partie de l'url liée à l'ensemble de la classe
 @Produces("application/json") //pour transformer java en json sur réponses fabriquées
 public class ProduitRestController {
+	
+	@Autowired
+	private ServiceProduit serviceProduit;
 	
 	private static List<Produit> listeProduits = new ArrayList<>();
 	
@@ -36,6 +47,13 @@ public class ProduitRestController {
 			listeProduits.add(new Produit(3L,"classeur",5.3));
 		}
 		System.out.println("ProduitRestController instance:" + this.toString() );
+		
+	}
+	
+	@PostConstruct
+	public void init() {
+		if(this.serviceProduit!=null)
+			System.out.println(this.serviceProduit.getServiceName() );
 	}
 	
 	@GET
