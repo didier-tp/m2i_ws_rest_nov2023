@@ -153,8 +153,7 @@ public class ProduitRestController {
 	
 	@POST
 	@Consumes("application/json")
-	//    { "num" : 7 , "label" : "crayon" , "prix" : 2.8 } très rarement
-	// ou { "num" : null , "label" : "crayon" , "prix" : 2.8 }
+	//    { "num" : null , "label" : "crayon" , "prix" : 2.8 }
 	// ou { "label" : "crayon" , "prix" : 2.8 }
 	public Response postProduit(Produit p){
 		

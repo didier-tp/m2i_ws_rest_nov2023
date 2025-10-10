@@ -21,16 +21,11 @@ public class JerseyConfiguration extends ResourceConfig {
         
         packages("tp.springJersey.rest");
         
-        register(OpenApiResource.class);
-        //OpenApiResource oar = new OpenApiResource();
-        //register(oar);
-        
+        register(OpenApiResource.class);        
         //expose API doc at openapi.json endpoint
         //http://localhost:8080/springJersey/rest/openapi.json
         //to explore: /springJersey/rest/openapi.json
         // with http://localhost:8080/springJersey/webjars/swagger-ui/index.html
-        
-        
     }
     
 }
