@@ -184,6 +184,8 @@ public class ProduitRestController {
 	//URL d'appel : http://localhost:8080/..../produits/2
 	//    { "num" : 2 , "label" : "gomme blanche" , "prix" : 3.8 } 
 	public Response putProduit(@PathParam("id") Long id, Produit p){
+		System.out.println("putProduit() called with id="+id+" and p="+p);
+		p.setNum(id);
         //.... mise à jour / update sur liste ou en base
 		for(int i=0;i<this.listeProduits.size();i++) {
 			Produit prod = listeProduits.get(i);
