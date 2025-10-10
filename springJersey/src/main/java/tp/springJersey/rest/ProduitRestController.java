@@ -38,16 +38,13 @@ public class ProduitRestController {
 	@Autowired
 	private ServiceProduit serviceProduit;
 	
-	private static List<Produit> listeProduits = new ArrayList<>();
+	private List<Produit> listeProduits = new ArrayList<>();
 	
 	public ProduitRestController() {
-		if(listeProduits.isEmpty()) {
-			listeProduits.add(new Produit(1L,"stylo",3.3));
-			listeProduits.add(new Produit(2L,"gomme",4.3));
-			listeProduits.add(new Produit(3L,"classeur",5.3));
-		}
+		listeProduits.add(new Produit(1L,"stylo",3.3));
+		listeProduits.add(new Produit(2L,"gomme",4.3));
+		listeProduits.add(new Produit(3L,"classeur",5.3));
 		System.out.println("ProduitRestController instance:" + this.toString() );
-		
 	}
 	
 	@PostConstruct
@@ -166,11 +163,13 @@ public class ProduitRestController {
 		for(int i=0;i<this.listeProduits.size();i++) {
 			Produit prod = listeProduits.get(i);
 			if(prod.getNum()==id) {
-				listeProduits.set(i, p); break;
+				listeProduits.set(i, p); 
+				//retourner le code 204/NO_CONTENT ou bien 200/OK plus copie des données mises à jour
+				return Response.status(Status.NO_CONTENT).build(); 
 			}
 		}
-		//retourner le code 204/NO_CONTENT ou bien 200/OK plus copie des données mises à jour
-		return Response.status(Status.NO_CONTENT).build(); 
+		//retourner le code 404/NOT_FOUND si pas trouvé produit d'id à mettre à jour
+		return Response.status(Status.NOT_FOUND).build(); 
 	}
 	
 	@DELETE
