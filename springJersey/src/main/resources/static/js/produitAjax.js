@@ -13,7 +13,7 @@ function objectFromInput(){
 	let prix = (document.getElementById("inputPrix")).value;
 	
 	document.getElementById("spanMsg").innerHTML="";
-	let obj = { nume : numero,
+	let obj = { num : numero,
 				label : label,
 	            prix : parseFloat(prix)
 	            };
