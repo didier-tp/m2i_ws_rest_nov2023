@@ -20,10 +20,18 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 import tp.springJersey.dto.Produit;
 import tp.springJersey.service.ServiceProduit;
+
+/*
+ La classe courante (ici ProduitRestController)
+ pourrait éventuellemnt être appeler "ProduitResource" au
+ sens point d'entrée des traitements sur des ressources de type produits
+ */
+
 
 @Tag(name = "api-produits", description = "REST API pour produits (TP)"  ) //pour doc swagger
 
@@ -31,9 +39,18 @@ import tp.springJersey.service.ServiceProduit;
 //dans classe héritant de ResourceConfig
 //MAIS TRES CONSEILLE pour comportement SINGLETON et pour INJECTION de dépendances "Spring"
 
+
 @Path("/api-produits/v1/produits") //partie de l'url liée à l'ensemble de la classe
-@Produces("application/json") //pour transformer java en json sur réponses fabriquées
+//@Produces("application/json") //pour transformer java en json sur réponses fabriquées
+@Produces(MediaType.APPLICATION_JSON)
 public class ProduitRestController {
+	
+	@GET
+	@Path("/hello")  //url en .../produits/hello
+	@Produces("text/plain")
+	public String hello() {
+		return "hello";
+	}
 	
 	@Autowired
 	private ServiceProduit serviceProduit;
@@ -155,7 +172,8 @@ public class ProduitRestController {
 	
 	@PUT
 	@Path("/{id}")
-	@Consumes("application/json")
+	//@Consumes("application/json")
+	@Consumes(MediaType.APPLICATION_JSON)
 	//URL d'appel : http://localhost:8080/..../produits/2
 	//    { "num" : 2 , "label" : "gomme blanche" , "prix" : 3.8 } 
 	public Response putProduit(@PathParam("id") Long id, Produit p){
